@@ -4,13 +4,18 @@ namespace Controller;
 
 class TestController
 {
-    public function test()
+    public function test(): string
     {
-        return 'tests';
+        $response = json_encode(['message' => 'Hello, world!']);
+        return responseJSON($response);
     }
 
-    public function ping()
+    public function ping(): string
     {
         return 'pong';
+    }
+
+    public function create($body) {
+        dd('blah', $body);
     }
 }

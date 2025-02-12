@@ -16,7 +16,7 @@ $router = new Router();
 require 'router/api.php';
 
 try {
-    echo($router->handleRequest($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']));
+    echo($router->handleRequest($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD'], json_decode(file_get_contents('php://input'))));
 } catch (Exception $exception) {
     echo 'Failure: ' . $exception;
 }

@@ -4,13 +4,14 @@ class Router
 {
     private $routes = [];
 
-    public function handleRequest(string $uri, string $method)
+    public function handleRequest(string $uri, string $method, $body)
     {
         foreach ($this->routes as $route) {
+
             if($route['uri'] == $uri && $route['method'] === $method) {
                 $controller = new $route['callback'][0];
                 $function = $route['callback'][1];
-                return $controller->$function();
+                return $controller->$function($body);
             }
         }
         http_response_code(404);
@@ -31,23 +32,21 @@ class Router
         ];
     }
 
-    public function post(string $uri, array $callback, array $body)
+    public function post(string $uri, array $callback)
     {
         $this->routes[] = [
             'uri' => $uri,
             'callback' => $callback,
             'method' => 'POST',
-            'body' => $body,
         ];
     }
 
-    public function put(string $uri, array $callback, array $body)
+    public function put(string $uri, array $callback)
     {
         $this->routes[] = [
             'uri' => $uri,
             'callback' => $callback,
             'method' => 'PUT',
-            'body' => $body,
         ];
     }
 
