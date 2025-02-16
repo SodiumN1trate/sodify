@@ -5,13 +5,12 @@ namespace Core;
 abstract class Model
 {
     public static string $tableName;
-    protected array $fillable;
-
-    protected string $query;
+    private array $fillable;
+    private string $query;
 
     public function __construct(array $object)
     {
-        if(!isset($this->tableName)) {
+        if(!isset(static::$tableName)) {
             throw new \Exception('Please provide table name for model');
         }
         foreach ($object as $key => $field) {
@@ -25,8 +24,7 @@ abstract class Model
      */
     public static function all(): array
     {
-        global $db;
-        $stmt = $db->connection()->prepare("SELECT * FROM " . static::$tableName);
+        $stmt = (new Database())->connect()->prepare("SELECT * FROM " . static::$tableName);
         $stmt->execute();
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
         return $stmt->fetchAll();

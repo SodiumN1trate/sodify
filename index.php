@@ -14,11 +14,11 @@ spl_autoload_register(function (string $class_name) {
 });
 
 /*
- * Connect to database
- *
+ * Load .env
  */
-$db = new \Core\Database('localhost:3306', 'sodify', 'root', 'qwerty');
-//$query = $db->connection()->prepare('SELECT * FROM `users`');
+$dotenv = \Dotenv\Dotenv::createImmutable(base_path());
+$dotenv->load();
+
 
 /*
  * Add router and import defined routes
